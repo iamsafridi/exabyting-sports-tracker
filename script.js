@@ -6,8 +6,8 @@ let matches = [];
 let currentFilter = 'all';
 let currentUser = null;
 let authToken = null;
-const API_BASE = 'https://exasports-9ikvy101v-shahid-afridis-projects-826a9584.vercel.app/api';
-const AUTH_BASE_URL = 'https://exasports-9ikvy101v-shahid-afridis-projects-826a9584.vercel.app/auth';
+const API_BASE = 'https://exasports-anixlv13p-shahid-afridis-projects-826a9584.vercel.app/api';
+const AUTH_BASE_URL = 'https://exasports-anixlv13p-shahid-afridis-projects-826a9584.vercel.app/auth';
 const USE_API = true; // Set to false to use localStorage fallback
 
 // Initialize the app

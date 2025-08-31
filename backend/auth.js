@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 
 // Configure Google OAuth Strategy
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientID: '57631123573-8hbn1mon2ujdb1sfh98eh538qltir2vd.apps.googleusercontent.com',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'https://exasports-9ikvy101v-shahid-afridis-projects-826a9584.vercel.app/auth/google/callback'
+    callbackURL: 'https://exasports-77pqup2xo-shahid-afridis-projects-826a9584.vercel.app/auth/google/callback'
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const email = profile.emails[0].value;

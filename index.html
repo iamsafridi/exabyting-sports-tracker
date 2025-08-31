@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Sports Money Tracker - Exabyting</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Track collections & expenses for cricket/football matches in Exabyting. Complete financial transparency for office sports events.">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Sports Tracker">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Open Graph Meta Tags for sharing -->
+    <meta property="og:title" content="Office Sports Money Tracker - Bangladesh">
+    <meta property="og:description" content="Track collections & expenses for cricket/football matches in Bangladesh">
+    <meta property="og:type" content="website">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNTYgMjU2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMjA4IDEyOEMyMDggMTcxLjA3OCAxNzMuMDc4IDIwNiAxMzAgMjA2SDEyNkM4Mi45MjIgMjA2IDQ4IDE3MS4wNzggNDggMTI4VjEyNEM0OCA4MC45MjIgODIuOTIyIDQ2IDEyNiA0Nkg1MEMxMDcuMDc4IDQ2IDE0MiA4MC45MjIgMTQyIDEyNFYxMjhDMTQyIDE3MS4wNzggMTA3LjA3OCAyMDYgNjQgMjA2SDYwQzE2LjkyMiAyMDYgLTE4IDE3MS4wNzggLTE4IDEyOFYxMjRDLTE4IDgwLjkyMiAxNi45MjIgNDYgNjAgNDZIMTMwQzE3My4wNzggNDYgMjA4IDgwLjkyMiAyMDggMTI0VjEyOFoiIGZpbGw9IiMxRTkwRkYiLz4KPHBhdGggZD0iTTEzMCAxMjhDMTMwIDEzNS43MzIgMTIzLjczMiAxNDIgMTE2IDE0Mkg5NkM4OC4yNjggMTQyIDgyIDEzNS43MzIgODIgMTI4VjEwOEM4MiAxMDAuMjY4IDg4LjI2OCA5NCA5NiA5NEgxMTZDMTIzLjczMiA5NCAxMzAgMTAwLjI2OCAxMzAgMTA4VjEyOFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNzQgMTI4QzE3NCAxMzUuNzMyIDE2Ny43MzIgMTQyIDE2MCAxNDJIMTQwQzEzMi4yNjggMTQyIDEyNiAxMzUuNzMyIDEyNiAxMjhWMTA4QzEyNiAxMDAuMjY4IDEzMi4yNjggOTQgMTQwIDk0SDE2MEMxNjcuNzMyIDk0IDE3NCAxMDAuMjY4IDE3NCAxMDhWMTI4WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+" alt="Exabyting Logo" class="logo">
+                    Exabyting Sports Money Tracker
+                </h1>
+                <p>Track collections & expenses for cricket/football matches in Exabyting</p>
+            </div>
+            <div id="userInfo" class="user-info" style="display: none;">
+                <div class="user-profile">
+                    <img id="userAvatar" src="" alt="User" class="user-avatar">
+                    <div class="user-details">
+                        <span id="userName">User Name</span>
+                        <span id="userEmail">user@exabyting.com</span>
+                    </div>
+                </div>
+                <button id="logoutBtn" onclick="logout()" class="btn-secondary btn-sm">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            <div id="loginPrompt" class="login-prompt" style="display: none;">
+                <span>Please log in to create or modify data</span>
+                <button onclick="login()" class="btn-google btn-sm">
+                    <i class="fab fa-google"></i> Sign in
+                </button>
+            </div>
+        </header>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-screen" style="display: none;">
+            <div class="login-container">
+                <div class="login-header">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAyNTYgMjU2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMjA4IDEyOEMyMDggMTcxLjA3OCAxNzMuMDc4IDIwNiAxMzAgMjA2SDEyNkM4Mi45MjIgMjA2IDQ4IDE3MS4wNzggNDggMTI4VjEyNEM0OCA4MC45MjIgODIuOTIyIDQ2IDEyNiA0Nkg1MEMxMDcuMDc4IDQ2IDE0MiA4MC45MjIgMTQyIDEyNFYxMjhDMTQyIDE3MS4wNzggMTA3LjA3OCAyMDYgNjQgMjA2SDYwQzE2LjkyMiAyMDYgLTE4IDE3MS4wNzggLTE4IDEyOFYxMjRDLTE4IDgwLjkyMiAxNi45MjIgNDYgNjAgNDZIMTMwQzE3My4wNzggNDYgMjA4IDgwLjkyMiAyMDggMTI0VjEyOFoiIGZpbGw9IiMxRTkwRkYiLz4KPHBhdGggZD0iTTEzMCAxMjhDMTMwIDEzNS43MzIgMTIzLjczMiAxNDIgMTE2IDE0Mkg5NkM4OC4yNjggMTQyIDgyIDEzNS43MzIgODIgMTI4VjEwOEM4MiAxMDAuMjY4IDg4LjI2OCA5NCA5NiA5NEgxMTZDMTIzLjczMiA5NCAxMzAgMTAwLjI2OCAxMzAgMTA4VjEyOFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNzQgMTI4QzE3NCAxMzUuNzMyIDE2Ny43MzIgMTQyIDE2MCAxNDJIMTQwQzEzMi4yNjggMTQyIDEyNiAxMzUuNzMyIDEyNiAxMjhWMTA4QzEyNiAxMDAuMjY4IDEzMi4yNjggOTQgMTQwIDk0SDE2MEMxNjcuNzMyIDk0IDE3NCAxMDAuMjY4IDE3NCAxMDhWMTI4WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+" alt="Exabyting Logo" class="logo">
+                    <h2>Exabyting Sports Money Tracker</h2>
+                    <p>Secure access for Exabyting employees only</p>
+                </div>
+                <div class="login-content">
+                    <div class="login-info">
+                        <h3><i class="fas fa-shield-alt"></i> Secure Login Required</h3>
+                        <p>Please sign in with your <strong>@exabyting.com</strong> email address to access the sports money tracker.</p>
+                        <ul class="login-features">
+                            <li><i class="fas fa-check"></i> Track match collections & expenses</li>
+                            <li><i class="fas fa-check"></i> Create and manage matches</li>
+                            <li><i class="fas fa-check"></i> View financial transparency reports</li>
+                            <li><i class="fas fa-check"></i> Secure access with audit logging</li>
+                        </ul>
+                    </div>
+                    <button onclick="login()" class="btn-google">
+                        <i class="fab fa-google"></i>
+                        Sign in with Google
+                    </button>
+                    <p class="login-note">
+                        <i class="fas fa-info-circle"></i>
+                        Only @exabyting.com email addresses are allowed
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Content -->
+        <div id="appContent">
+
+        <!-- Match Management Section -->
+        <div class="match-section">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar-alt"></i> Match Management</h2>
+                <button onclick="toggleMatchForm()" class="btn-primary">
+                    <i class="fas fa-plus"></i> New Match
+                </button>
+            </div>
+            
+            <div id="currentMatchInfo" class="current-match">
+                <div class="match-info">
+                    <h3 id="currentMatchName">No active match</h3>
+                    <p id="currentMatchDate">Please create a match to start tracking</p>
+                    <div id="carryOverInfo" class="carry-over-info" style="display: none;">
+                        <span>Carry-over from previous match: <strong id="carryOverAmount">৳0</strong></span>
+                    </div>
+                </div>
+                <div class="match-actions">
+                    <button id="endMatchBtn" onclick="endCurrentMatch()" class="btn-warning" style="display: none;">
+                        <i class="fas fa-flag-checkered"></i> End Match
+                    </button>
+                    <button onclick="toggleMatchHistory()" class="btn-secondary">
+                        <i class="fas fa-history"></i> Match History
+                    </button>
+                </div>
+            </div>
+            
+            <div id="newMatchForm" class="match-form" style="display: none;">
+                <h4>Create New Match</h4>
+                <div class="input-group">
+                    <div class="form-field">
+                        <label for="matchName">Match Name</label>
+                        <input type="text" id="matchName" placeholder="e.g., Cricket vs Team B">
+                    </div>
+                    <div class="form-field">
+                        <label for="matchDate">Match Date</label>
+                        <input type="date" id="matchDate">
+                    </div>
+                    <div class="form-field">
+                        <label for="carryOverInput">Carry-over Amount (৳)</label>
+                        <input type="number" id="carryOverInput" placeholder="Previous balance" min="0" value="0">
+                        <small>Leave 0 for automatic carry-over from last match</small>
+                    </div>
+                    <div class="form-actions">
+                        <button onclick="createNewMatch()" class="btn-success">
+                            <i class="fas fa-play"></i> Start Match
+                        </button>
+                        <button onclick="toggleMatchForm()" class="btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="matchHistory" class="match-history" style="display: none;">
+                <h4>Previous Matches</h4>
+                <div id="matchHistoryList">
+                    <!-- Match history will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalParticipants">0</h3>
+                    <p>Total Players</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="paidCount">0</h3>
+                    <p>Paid</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="pendingCount">0</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalCollected">৳0</h3>
+                    <p>Collected</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <div class="input-group">
+                <div class="form-field">
+                    <label for="participantName">Player Name</label>
+                    <input type="text" id="participantName" placeholder="Enter player name">
+                </div>
+                <div class="form-field">
+                    <label for="participantAmount">Amount (৳)</label>
+                    <input type="number" id="participantAmount" placeholder="Amount in BDT" min="0">
+                </div>
+                <button onclick="addParticipant()" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Player
+                </button>
+            </div>
+            
+            <div class="bulk-actions">
+                <button onclick="markAllPaid()" class="btn-success">
+                    <i class="fas fa-check-double"></i> Mark All Paid
+                </button>
+                <button onclick="markAllPending()" class="btn-warning">
+                    <i class="fas fa-undo"></i> Mark All Pending
+                </button>
+                <button onclick="clearAll()" class="btn-danger">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+        </div>
+
+        <div class="participants-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Participants</h2>
+                <div class="filter-buttons">
+                    <button onclick="filterParticipants('all')" class="filter-btn active" data-filter="all">All</button>
+                    <button onclick="filterParticipants('paid')" class="filter-btn" data-filter="paid">Paid</button>
+                    <button onclick="filterParticipants('pending')" class="filter-btn" data-filter="pending">Pending</button>
+                </div>
+            </div>
+            
+            <div id="participantsList" class="participants-list">
+                <!-- Participants will be dynamically added here -->
+            </div>
+            
+            <div id="emptyState" class="empty-state">
+                <i class="fas fa-user-plus"></i>
+                <h3>No participants added yet</h3>
+                <p>Add your first player to start tracking payments</p>
+            </div>
+        </div>
+
+        <!-- Expense Tracking Section -->
+        <div class="expense-section">
+            <div class="section-header">
+                <h2><i class="fas fa-money-bill-alt"></i> Match Expenses</h2>
+                <button onclick="toggleExpenseForm()" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Expense
+                </button>
+            </div>
+            
+            <div id="expenseForm" class="expense-form" style="display: none;">
+                <h4>Add Match Expense</h4>
+                <div class="input-group">
+                    <div class="form-field">
+                        <label for="expenseCategory">Expense Category</label>
+                        <select id="expenseCategory">
+                            <option value="Ground Rent">Ground Rent</option>
+                            <option value="Refreshments">Refreshments</option>
+                            <option value="Equipment">Equipment</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Referee">Referee</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="expenseDescription">Description</label>
+                        <input type="text" id="expenseDescription" placeholder="What was purchased/paid for">
+                    </div>
+                    <div class="form-field">
+                        <label for="expenseDate">Expense Date</label>
+                        <input type="date" id="expenseDate">
+                    </div>
+                    <div class="form-field">
+                        <label for="expenseAmount">Amount (৳)</label>
+                        <input type="number" id="expenseAmount" placeholder="Amount in BDT" min="0">
+                    </div>
+                    <div class="form-actions">
+                        <button onclick="addExpense()" class="btn-primary">
+                            <i class="fas fa-plus"></i> Add Expense
+                        </button>
+                        <button onclick="toggleExpenseForm()" class="btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="expensesList" class="expenses-list">
+                <!-- Expenses will be dynamically added here -->
+            </div>
+            
+            <div id="expensesEmpty" class="empty-state">
+                <i class="fas fa-receipt"></i>
+                <h3>No expenses recorded yet</h3>
+                <p>Add match expenses to maintain transparency</p>
+            </div>
+        </div>
+
+        <!-- Financial Report Section -->
+        <div class="report-section">
+            <div class="report-header">
+                <h2><i class="fas fa-chart-line"></i> Financial Transparency Report</h2>
+                <button onclick="generateReport()" class="btn-success">
+                    <i class="fas fa-download"></i> Generate Report
+                </button>
+            </div>
+            
+            <div class="report-grid">
+                <div class="report-card collections">
+                    <div class="report-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="report-details">
+                        <h3>Collections</h3>
+                        <div class="report-amount" id="reportCollections">৳0</div>
+                        <div class="report-breakdown">
+                            <span>Expected: <span id="reportExpected">৳0</span></span>
+                            <span>Collected: <span id="reportCollected">৳0</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-card expenses">
+                    <div class="report-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="report-details">
+                        <h3>Total Expenses</h3>
+                        <div class="report-amount" id="reportTotalExpenses">৳0</div>
+                        <div class="report-breakdown" id="expenseBreakdown">
+                            <!-- Expense breakdown will be added here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-card balance">
+                    <div class="report-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="report-details">
+                        <h3>Remaining Balance</h3>
+                        <div class="report-amount" id="reportBalance">৳0</div>
+                        <div class="report-status" id="balanceStatus">
+                            Perfect balance maintained!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <div class="summary-card">
+                <h3><i class="fas fa-chart-pie"></i> Payment Summary</h3>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Total Amount Expected:</span>
+                        <span id="totalExpected">৳0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Amount Collected:</span>
+                        <span id="amountCollected">৳0</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Remaining to Collect:</span>
+                        <span id="remainingAmount">৳0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+    </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
